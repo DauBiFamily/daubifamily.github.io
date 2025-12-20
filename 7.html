@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Ôn Tập Đậu Bí Family</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* (Giữ nguyên phần CSS Pastel cũ của bạn ở đây) */
+        :root { --p-navy: #5D6D7E; --p-rose: #D98880; --p-teal: #76D7C4; --p-sun: #F7DC6F; --p-purple: #AF7AC5; }
+        body { font-family: 'Quicksand', sans-serif; background: #f4f4f4 url('https://img.freepik.com/free-vector/hand-drawn-back-school-background_23-2149464866.jpg') fixed; background-size: cover; background-blend-mode: multiply; margin: 0; }
+        header { background: linear-gradient(135deg, var(--p-navy), var(--p-purple)); color: white; padding: 40px 20px; text-align: center; border-bottom: 8px solid var(--p-sun); }
+        .tabs-container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+        .grade-tabs, .subject-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 12px 25px; border-radius: 30px; cursor: pointer; font-weight: 700; background: white; border: 2px solid var(--p-navy); }
+        .tab-btn.active { background: var(--p-navy); color: white; }
+        .subject-btn { padding: 8px 18px; border-radius: 10px; background: var(--p-rose); color: white; border: none; cursor: pointer; opacity: 0.6; }
+        .subject-btn.active { opacity: 1; transform: scale(1.1); font-weight: bold; }
+        .quiz-section { background: rgba(255, 255, 255, 0.95); max-width: 900px; margin: 0 auto 50px; padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .test-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ccc; padding-bottom: 15px; margin-bottom: 25px; }
+        .question-card { background: #fdfdfd; border-left: 5px solid var(--p-purple); padding: 20px; margin-bottom: 25px; border-radius: 10px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .option-item { padding: 10px; background: #eee; border-radius: 8px; cursor: pointer; display: flex; align-items: center; }
+        .explanation { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; font-style: italic; font-weight: bold;}
+        .btn-submit { display: block; width: 100%; padding: 20px; background: var(--p-teal); color: white; font-size: 1.5rem; border: none; border-radius: 15px; cursor: pointer; }
+        .score-display { font-size: 2rem; text-align: center; display: none; margin-bottom: 20px; }
+        img { max-width: 100%; height: auto; border-radius: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cổng Học Tập Tiểu Học Đậu Bí Family</h1>
+    <p>Học chăm chỉ - Thi tự tin - Điểm 10 xứng đáng</p>
+</header>
+
+<div class="tabs-container">
+    <div class="grade-tabs">
+        <button class="tab-btn" onclick="changeGrade(1)">Lớp 1</button>
+        <button class="tab-btn active" onclick="changeGrade(2)">Lớp 2</button>
+        <button class="tab-btn" onclick="changeGrade(3)">Lớp 3</button>
+        <button class="tab-btn" onclick="changeGrade(4)">Lớp 4</button>
+        <button class="tab-btn" onclick="changeGrade(5)">Lớp 5</button>
+    </div>
+    <div id="subject-tabs" class="subject-tabs"></div>
+
+    <div class="quiz-section">
+        <div class="test-header">
+            <h2 id="current-info">Vui lòng chọn đề</h2>
+            <select id="test-select" onchange="loadTestFile()" style="padding: 10px; border-radius: 5px;">
+                <option value="">-- Chọn đề --</option>
+                <script>
+                    for(let i=1; i<=20; i++) document.write(`<option value="${i}">Đề số ${i}</option>`);
+                </script>
+            </select>
+        </div>
+        <div id="score-display" class="score-display"></div>
+        <div id="quiz-container"></div>
+        <button id="submit-btn" class="btn-submit" onclick="gradeTest()" style="display:none;">NỘP BÀI & XEM GIẢI THÍCH</button>
+    </div>
+</div>
+
+<script type="module">
+    // --- CẤU HÌNH MÔN HỌC ---
+    const SUBJECTS_CONFIG = {
+        1: ["Toán", "Tiếng Việt"],
+        2: ["Toán", "Tiếng Việt", "Tiếng Anh", "Toán Tiếng Anh"],
+        3: ["Toán", "Tiếng Việt", "Tiếng Anh"],
+        4: ["Toán", "Tiếng Việt", "Tiếng Anh", "Khoa Học"],
+        5: ["Toán", "Tiếng Việt", "Tiếng Anh", "Khoa Học"]
+    };
+
+    let currentGrade = 2;
+    let currentSubject = "Toán";
+    let questionsData = [];
+
+    // Hàm bỏ dấu Tiếng Việt để tìm thư mục (ví dụ: Tiếng Việt -> TiengViet)
+    function cleanName(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "");
+    }
+
+    window.changeGrade = (g) => {
+        currentGrade = g;
+        document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', (i+1) == g));
+        renderSubjectTabs();
+    };
+
+    function renderSubjectTabs() {
+        const container = document.getElementById('subject-tabs');
+        container.innerHTML = '';
+        const subs = SUBJECTS_CONFIG[currentGrade];
+        subs.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.className = `subject-btn ${i === 0 ? 'active' : ''}`;
+            btn.innerText = s;
+            btn.onclick = () => {
+                currentSubject = s;
+                document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadTestFile();
+            };
+            container.appendChild(btn);
+        });
+        currentSubject = subs[0];
+        loadTestFile();
+    }
+
+    window.loadTestFile = async () => {
+        const testNum = document.getElementById('test-select').value;
+        const container = document.getElementById('quiz-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const info = document.getElementById('current-info');
+        
+        container.innerHTML = "";
+        submitBtn.style.display = "none";
+        document.getElementById('score-display').style.display = 'none';
+
+        if (!testNum) return;
+
+        info.innerText = `${currentSubject} Lớp ${currentGrade} - Đề số ${testNum}`;
+
+        // ĐƯỜNG DẪN TỰ ĐỘNG: data/Lop2/Toan/de1.js
+        const path = `./data/Lop${currentGrade}/${cleanName(currentSubject)}/de${testNum}.js`;
+
+        try {
+            const module = await import(path);
+            questionsData = module.data;
+            renderQuiz();
+        } catch (e) {
+            container.innerHTML = `<p style="padding:20px;">⚠️ Chưa có dữ liệu cho <b>Đề số ${testNum}</b> môn ${currentSubject}. <br>Vui lòng tạo file tại: <code>${path}</code></p>`;
+        }
+    };
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        questionsData.forEach((q, i) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            let inputArea = q.opts 
+                ? `<div class="options-grid">${q.opts.map(o => `<label class="option-item"><input type="radio" name="q${i}" value="${o}"> ${o}</label>`).join('')}</div>`
+                : `<select name="q${i}" style="margin-top:10px; padding:8px;"><option value="">-- Chọn số --</option>${Array.from({length: 21}, (_, n) => `<option value="${n}">${n}</option>`).join('')}</select>`;
+
+            card.innerHTML = `
+                <div><strong>${q.q}</strong></div>
+                ${q.img ? `<img src="${q.img}">` : ''}
+                ${inputArea}
+                <div id="ex${i}" class="explanation"></div>
+            `;
+            container.appendChild(card);
+        });
+        document.getElementById('submit-btn').style.display = "block";
+    }
+
+    window.gradeTest = () => {
+        let score = 0;
+        questionsData.forEach((q, i) => {
+            const radio = document.querySelector(`input[name="q${i}"]:checked`);
+            const select = document.querySelector(`select[name="q${i}"]`);
+            const ans = q.opts ? (radio ? radio.value : "") : (select ? select.value : "");
+            
+            const ex = document.getElementById(`ex${i}`);
+            ex.style.display = 'block';
+            if(ans == q.a) { score++; ex.innerHTML = `✅ Đúng! ${q.e}`; ex.style.color = 'green'; }
+            else { ex.innerHTML = `❌ Sai. Đáp án: ${q.a}. ${q.e}`; ex.style.color = 'red'; }
+        });
+        const sd = document.getElementById('score-display');
+        sd.style.display = 'block';
+        sd.innerHTML = `Kết quả: ${score}/${questionsData.length} câu đúng!`;
+        window.scrollTo({ top: 400, behavior: 'smooth' });
+    };
+
+    renderSubjectTabs();
+</script>
+</body>
+</html>
