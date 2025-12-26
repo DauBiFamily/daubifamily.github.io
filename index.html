@@ -179,7 +179,7 @@
             
             let inputArea = q.opts 
                 ? `<div class="options-grid">${q.opts.map(o => `<label class="option-item"><input type="radio" name="q${i}" value="${o}"> ${o}</label>`).join('')}</div>`
-                : `<select name="q${i}" style="margin-top:10px; padding:8px;"><option value="">-- Chọn số --</option>${Array.from({length: 100}, (_, n) => `<option value="${n}">${n}</option>`).join('')}</select>`;
+                : `<select name="q${i}" style="margin-top:10px; padding:8px;"><option value="">-- Chọn số --</option>${Array.from({length: 21}, (_, n) => `<option value="${n}">${n}</option>`).join('')}</select>`;
 
             card.innerHTML = `
                 <div><strong>Câu ${i+1}: ${q.q}</strong></div>
@@ -274,4 +274,5 @@
 </script>
 </body>
 </html>
+
 
