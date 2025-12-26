@@ -12,7 +12,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q1.png", // Hình cái cặp sách
     img_desc: "Cái cặp sách (bag)",
     opts: ["A. It's a bag.", "B. It's a book.", "C. It's a pen.", "D. It's a rubber."],
-    a: "A",
+    a: "A. It's a bag.",
     e: "Hình ảnh cái cặp sách là 'Bag'."
   },
   {
@@ -21,7 +21,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q2.png", // Hình cục tẩy
     img_desc: "Cục tẩy (rubber/eraser)",
     opts: ["A. Yes, it is.", "B. No, it isn't. It's a pencil.", "C. No, it isn't. It's a rubber.", "D. Yes, they are."],
-    a: "C",
+    a: "C. No, it isn't. It's a rubber.",
     e: "Hình là cục tẩy (rubber), không phải bút mực. Đáp án C đúng."
   },
   {
@@ -30,7 +30,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q3.png", // Bé chạm tay lên mũi
     img_desc: "Chạm vào mũi (nose)",
     opts: ["A. nose", "B. eyes", "C. ears", "D. mouth"],
-    a: "A",
+    a: "A. nose",
     e: "Hành động chạm vào mũi. Mũi là 'Nose'."
   },
   {
@@ -39,7 +39,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q4.png", // Màu xanh dương
     img_desc: "Màu xanh dương (blue)",
     opts: ["A. Red", "B. Green", "C. Yellow", "D. Blue"],
-    a: "D",
+    a: "D. Blue",
     e: "Màu xanh dương/xanh nước biển là 'Blue'."
   },
   {
@@ -48,7 +48,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q5.png", // Mở sách ra
     img_desc: "Mở sách (book)",
     opts: ["A. door", "B. book", "C. bag", "D. window"],
-    a: "B",
+    a: "B. book",
     e: "Hình ảnh mở sách. Cụm từ 'Open your book'."
   },
   {
@@ -57,7 +57,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q6.png", // Hình đôi mắt
     img_desc: "Đôi mắt (eyes)",
     opts: ["A. nose", "B. face", "C. eyes", "D. mouth"],
-    a: "C",
+    a: "C. eyes",
     e: "Chúng ta có 2 mắt. Đáp án đúng là 'eyes'."
   },
   {
@@ -66,7 +66,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q7.png", // Cái cửa sổ
     img_desc: "Cửa sổ (window)",
     opts: ["A. door", "B. window", "C. board", "D. desk"],
-    a: "B",
+    a: "B. window",
     e: "Hình cửa sổ là 'Window'."
   },
   {
@@ -75,7 +75,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q8.png", // Pha màu đỏ và vàng
     img_desc: "Màu cam (orange)",
     opts: ["A. Green", "B. Purple", "C. Orange", "D. Brown"],
-    a: "C",
+    a: "C. Orange",
     e: "Màu đỏ pha màu vàng ra màu cam (Orange)."
   },
   {
@@ -84,7 +84,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q9.png", // Hình cái tai
     img_desc: "Đôi tai (ears)",
     opts: ["A. ear", "B. ears", "C. nose", "D. head"],
-    a: "B",
+    a: "B. ears",
     e: "Có 2 cái tai nên dùng số nhiều 'ears'."
   },
   {
@@ -93,7 +93,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q10.png", // Học sinh ngồi xuống
     img_desc: "Ngồi xuống (sit down)",
     opts: ["A. up", "B. in", "C. on", "D. down"],
-    a: "D",
+    a: "D. down",
     e: "Cụm từ mệnh lệnh: Sit down (Ngồi xuống)."
   },
   {
@@ -102,16 +102,16 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q11.png", // Chiếc lá màu xanh lá cây
     img_desc: "Lá cây màu xanh (green)",
     opts: ["A. Green", "B. Red", "C. Black", "D. Pink"],
-    a: "A",
+    a: "A. Green",
     e: "Lá cây thường màu xanh lá. Green."
   },
-  {
+  { 
     id: 12,
     q: "Is it a desk?",
     img: "./data/Lop2/TiengAnh/images/de2_q12.png", // Hình cái bàn học
     img_desc: "Bàn học (desk)",
     opts: ["A. Yes, it is.", "B. No, it isn't.", "C. Yes, they are.", "D. No, they aren't."],
-    a: "A",
+    a: "A. Yes, it is.",
     e: "Hình đúng là cái bàn. Trả lời: Yes, it is."
   },
   {
@@ -119,7 +119,7 @@ export const data = [
     q: "Choose the odd one out:",
     img: "",
     opts: ["A. Pen", "B. Pencil", "C. Ruler", "D. Shoulder"],
-    a: "D",
+    a: "D. Shoulder",
     e: "Pen, Pencil, Ruler là dụng cụ học tập. Shoulder (vai) là bộ phận cơ thể."
   },
   {
@@ -128,7 +128,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q14.png", // Khuôn mặt
     img_desc: "Khuôn mặt (face)",
     opts: ["A. face", "B. hand", "C. leg", "D. arm"],
-    a: "A",
+    a: "A. face",
     e: "Hình khuôn mặt là 'face'."
   },
   {
@@ -137,7 +137,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q15.png", // Cô giáo ra hiệu đứng lên
     img_desc: "Đứng lên (stand up)",
     opts: ["A. Sit", "B. Stand", "C. Listen", "D. Open"],
-    a: "B",
+    a: "B. Stand",
     e: "Stand up (Đứng lên)."
   },
   {
@@ -145,7 +145,7 @@ export const data = [
     q: "How many legs do you have?",
     img: "",
     opts: ["A. One", "B. Two", "C. Three", "D. Four"],
-    a: "B",
+    a: "B. Two",
     e: "Con người có 2 chân (legs)."
   },
   {
@@ -154,7 +154,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q17.png", // Quyển vở
     img_desc: "Quyển vở (notebook)",
     opts: ["A. Notebook", "B. Notebook", "C. Notbook", "D. Noetbook"],
-    a: "A",
+    a: "A. Notebook",
     e: "Từ đúng là Notebook."
   },
   {
@@ -163,7 +163,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q18.png", // Hộp bút màu cam
     img_desc: "Hộp bút màu cam",
     opts: ["A. a", "B. an", "C. two", "D. is"],
-    a: "B",
+    a: "B. an",
     e: "Trước nguyên âm 'o' (orange) dùng mạo từ 'an'. It's an orange pencil case."
   },
   {
@@ -172,7 +172,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q19.png", // Vỗ tay
     img_desc: "Vỗ tay (hands)",
     opts: ["A. hands", "B. arms", "C. legs", "D. head"],
-    a: "A",
+    a: "A. hands",
     e: "Clap your hands (Vỗ tay)."
   },
   {
@@ -181,7 +181,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q20.png", // Hình tròn được tô màu vàng
     img_desc: "Hình tròn màu vàng",
     opts: ["A. red", "B. blue", "C. yellow", "D. pink"],
-    a: "C",
+    a: "C. yellow",
     e: "Hình mẫu màu vàng. Đáp án Yellow."
   },
 
@@ -191,7 +191,7 @@ export const data = [
     q: "Unscramble: 's / i / h / T / n / o / s / e / m / y'",
     img: "",
     opts: ["A. This is nose my.", "B. This is my nose.", "C. My nose is This.", "D. Nose is my This."],
-    a: "B",
+    a: "B. This is my nose.",
     e: "Câu đúng: This is my nose (Đây là mũi của tôi)."
   },
   {
@@ -199,7 +199,7 @@ export const data = [
     q: "Read and calculate: I have 2 blue pens and 3 red pens. How many pens do I have?",
     img: "",
     opts: ["A. 4 pens", "B. 5 pens", "C. 6 pens", "D. 5 pencils"],
-    a: "B",
+    a: "B. 5 pens",
     e: "2 bút xanh + 3 bút đỏ = 5 bút (5 pens). Chú ý đáp án D sai vì là pencils (bút chì)."
   },
   {
@@ -207,7 +207,7 @@ export const data = [
     q: "Logic: Eye is to See, as Ear is to ______?",
     img: "",
     opts: ["A. Smell", "B. Touch", "C. Hear", "D. Taste"],
-    a: "C",
+    a: "C. Hear",
     e: "Mắt dùng để nhìn (See), Tai dùng để nghe (Hear/Listen)."
   },
   {
@@ -216,7 +216,7 @@ export const data = [
     img: "./data/Lop2/TiengAnh/images/de2_q24.png", // Hộp bút chứa: bút, tẩy, thước. Bên ngoài là cái cặp.
     img_desc: "Hộp bút có pen, rubber, ruler. Cái cặp (bag) ở ngoài.",
     opts: ["A. Pen", "B. Rubber", "C. Bag", "D. Ruler"],
-    a: "C",
+    a: "C. Bag",
     e: "Cái cặp (Bag) thường chứa hộp bút, chứ không nằm trong hộp bút."
   },
   {
@@ -224,7 +224,7 @@ export const data = [
     q: "Reorder conversation: (1) I'm fine, thanks. (2) Hello, How are you? (3) Hi, I'm Lan.",
     img: "",
     opts: ["A. 1-2-3", "B. 2-3-1", "C. 3-2-1", "D. 2-1-3"],
-    a: "C",
+    a: "C. 3-2-1",
     e: "Trật tự hợp lý: Chào (3) -> Hỏi thăm (2) -> Trả lời (1)."
   }
 ];
