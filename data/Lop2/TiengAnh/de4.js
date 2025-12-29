@@ -1,168 +1,172 @@
-/**
- * ĐỀ SỐ 2 - TIẾNG ANH LỚP 2
- * Nội dung: Family members, Feelings (Happy, Sad, etc.)
- */
-
 export const data = [
-  // --- CƠ BẢN (1-20) ---
   {
-    q: "Câu 1: Who is this? - This is my _____.",
-    img: "./data/Lop2/TiengAnh/images/de4_q1.png", // Hình người bố
-    opts: ["A. dad", "B. mom", "C. sister", "D. grandma"],
-    a: "A. dad",
-    e: "Hình ảnh bố là Dad/Father."
+    title: "English Grade 2 - Semester 1 Review | Greetings, Numbers, Colors, Animals",
+
+    q: "Question 1. Choose the correct greeting.",
+    opts: ["A. Hello", "B. Cat", "C. Five", "D. Red"],
+    a: "A. Hello",
+    e: "Hello là lời chào đúng."
   },
   {
-    q: "Câu 2: Is this your mom?",
-    img: "./data/Lop2/TiengAnh/images/de4_q2.png", // Hình người mẹ
-    opts: ["A. Yes, it is.", "B. No, it isn't.", "C. Yes, he is.", "D. No, he isn't."],
-    a: "A. Yes, it is.",
-    e: "Hình mẹ, trả lời Yes."
+    q: "Question 2. Which word means a number?",
+    opts: ["A. Dog", "B. Blue", "C. Five", "D. Hello"],
+    a: "C. Five",
+    e: "Five là số đếm."
   },
   {
-    q: "Câu 3: He is my _____ (Anh trai).",
-    opts: ["A. sister", "B. brother", "C. mother", "D. father"],
-    a: "B. brother",
-    e: "Anh/em trai là Brother."
+    q: "Question 3. Look at the picture. What animal is this?",
+    img: "./data/Lop2/TiengAnh/images/de4_q3.png",
+    opts: ["A. Dog", "B. Cat", "C. Bird", "D. Fish"],
+    a: "B. Cat",
+    e: "Hình ảnh là con mèo - Cat."
   },
   {
-    q: "Câu 4: How are you? - I am _____ (vui vẻ).",
-    img: "./data/Lop2/TiengAnh/images/de4_q4.png", // Mặt cười
-    opts: ["A. sad", "B. happy", "C. hungry", "D. cold"],
-    a: "B. happy",
-    e: "Happy là vui vẻ."
+    q: "Question 4. Choose the correct answer: Goodbye means ____.",
+    opts: ["A. Hello", "B. Thank you", "C. Bye", "D. Yes"],
+    a: "C. Bye",
+    e: "Goodbye có nghĩa là tạm biệt."
   },
   {
-    q: "Câu 5: 'Grandpa' nghĩa là gì?",
-    opts: ["A. Bà", "B. Ông", "C. Bố", "D. Chú"],
-    a: "B. Ông",
-    e: "Grandpa là ông."
-  },
-  {
-    q: "Câu 6: She is _____ (buồn).",
-    img: "./data/Lop2/TiengAnh/images/de4_q6.png", // Mặt buồn
-    opts: ["A. happy", "B. sad", "C. hot", "D. thirsty"],
-    a: "B. sad",
-    e: "Sad là buồn."
-  },
-  {
-    q: "Câu 7: Is he cold?",
-    img: "./data/Lop2/TiengAnh/images/de4_q7.png", // Người đang run cầm cập
-    opts: ["A. Yes, he is.", "B. No, he isn't.", "C. Yes, she is.", "D. No, it isn't."],
-    a: "A. Yes, he is.",
-    e: "Hình ảnh lạnh (cold). Chủ ngữ là He."
-  },
-  {
-    q: "Câu 8: This is my sister. _____ is five.",
-    opts: ["A. He", "B. She", "C. It", "D. I"],
-    a: "B. She",
-    e: "Sister (chị/em gái) là nữ nên dùng She."
-  },
-  {
-    q: "Câu 9: Are they hungry?",
-    img: "./data/Lop2/TiengAnh/images/de4_q9.png", // Hình người đang đói/nghĩ về đồ ăn
-    opts: ["A. Yes, they are.", "B. No, they aren't.", "C. Yes, we are.", "D. No, he isn't."],
-    a: "A. Yes, they are.",
-    e: "Hungry là đói bụng."
-  },
-  {
-    q: "Câu 10: Tìm từ khác loại:",
-    opts: ["A. Dad", "B. Mom", "C. Sister", "D. Happy"],
-    a: "D. Happy",
-    e: "Happy là cảm xúc, còn lại là thành viên gia đình."
-  },
-  {
-    q: "Câu 11: Who is she? - She is my _____ (Bà).",
-    opts: ["A. grandpa", "B. grandma", "C. dad", "D. brother"],
-    a: "B. grandma",
-    e: "Bà là Grandma."
-  },
-  {
-    q: "Câu 12: I am _____ (khát nước).",
-    opts: ["A. hungry", "B. thirsty", "C. happy", "D. sad"],
-    a: "B. thirsty",
-    e: "Thirsty là khát nước."
-  },
-  {
-    q: "Câu 13: Look at the photo. They are my _____.",
-    img: "./data/Lop2/TiengAnh/images/de4_q13.png", // Hình gia đình đông người
-    opts: ["A. family", "B. school", "C. class", "D. friends"],
-    a: "A. family",
-    e: "Family là gia đình."
-  },
-  {
-    q: "Câu 14: Is she your sister? - No, she _____.",
-    opts: ["A. is", "B. isn't", "C. not", "D. are"],
-    a: "B. isn't",
-    e: "Câu phủ định: No, she isn't."
-  },
-  {
-    q: "Câu 15: baby / a / It's / .",
-    opts: ["A. It's a baby.", "B. A baby it's.", "C. Baby a it's.", "D. It's baby a."],
-    a: "A. It's a baby.",
-    e: "Nó là một em bé."
-  },
-  {
-    q: "Câu 16: He is my father. He is _____ (cao).",
-    opts: ["A. short", "B. tall", "C. green", "D. red"],
-    a: "B. tall",
-    e: "Tall là cao."
-  },
-  {
-    q: "Câu 17: Chọn câu đúng với hình:",
-    img: "./data/Lop2/TiengAnh/images/de4_q17.png", // Một cô gái đang khóc
-    opts: ["A. She is happy.", "B. She is sad.", "C. She is hot.", "D. She is cold."],
-    a: "B. She is sad.",
-    e: "Khóc là biểu hiện của buồn (Sad)."
-  },
-  {
-    q: "Câu 18: Từ nào thiếu chữ cái 'o'?",
-    opts: ["A. M_ther", "B. F_ther", "C. Sist_r", "D. B_by"],
-    a: "A. M_ther",
-    e: "Mother (Mẹ) thiếu chữ o."
-  },
-  {
-    q: "Câu 19: Are you hot? - Yes, I _____.",
-    opts: ["A. is", "B. are", "C. am", "D. not"],
-    a: "C. am",
-    e: "Yes, I am."
-  },
-  {
-    q: "Câu 20: This is my uncle.",
-    opts: ["A. Đây là dì của tôi.", "B. Đây là chú của tôi.", "C. Đây là bố của tôi.", "D. Đây là bà của tôi."],
-    a: "B. Đây là chú của tôi.",
-    e: "Uncle là chú/bác trai."
+    q: "Question 5. Which word is a color?",
+    opts: ["A. Book", "B. Red", "C. Cat", "D. Five"],
+    a: "B. Red",
+    e: "Red là màu sắc."
   },
 
-  // --- NÂNG CAO (21-25) ---
   {
-    q: "Câu 21: Logic: Dad is to Mom, as Grandpa is to _____?",
-    opts: ["A. Sister", "B. Grandma", "C. Brother", "D. Aunt"],
-    a: "B. Grandma",
-    e: "Cặp tương ứng: Bố - Mẹ, Ông - Bà."
+    q: "Question 6. Which number comes before four?",
+    opts: ["A. Two", "B. Three", "C. Five", "D. Six"],
+    a: "B. Three",
+    e: "Three đứng trước four."
   },
   {
-    q: "Câu 22: Unscramble: 'y / p / h / a / p'",
-    opts: ["A. phapy", "B. happy", "C. yppah", "D. haypp"],
-    a: "B. happy",
-    e: "Sắp xếp lại thành từ Happy."
+    q: "Question 7. Look at the picture. What color is it?",
+    img: "./data/Lop2/TiengAnh/images/de4_q7.png",
+    opts: ["A. Red", "B. Blue", "C. Green", "D. Black"],
+    a: "B. Blue",
+    e: "Hình ảnh có màu xanh dương - Blue."
   },
   {
-    q: "Câu 23: Read: 'She is my mom's mother.' Who is she?",
-    opts: ["A. Sister", "B. Aunt", "C. Grandma", "D. Cousin"],
-    a: "C. Grandma",
-    e: "Mẹ của mẹ là Bà (Grandma)."
+    q: "Question 8. Choose the correct word: Thank ____.",
+    opts: ["A. hello", "B. cat", "C. you", "D. red"],
+    a: "C. you",
+    e: "Câu đúng là Thank you."
   },
   {
-    q: "Câu 24: I'm not sad. I'm not angry. I'm smiling. I am _____.",
-    opts: ["A. happy", "B. scared", "C. cold", "D. hot"],
-    a: "A. happy",
-    e: "Không buồn, không giận, đang cười -> Vui vẻ (Happy)."
+    q: "Question 9. Which one is an animal?",
+    opts: ["A. Pen", "B. Book", "C. Cat", "D. Bag"],
+    a: "C. Cat",
+    e: "Cat là con vật."
   },
   {
-    q: "Câu 25: Find the mistake: 'This are my family.'",
-    opts: ["A. This", "B. are", "C. my", "D. family"],
-    a: "B. are",
-    e: "This đi với is. Câu đúng: This is my family."
+    q: "Question 10. Choose the correct answer: Yes means ____.",
+    opts: ["A. No", "B. Hello", "C. OK", "D. Bye"],
+    a: "C. OK",
+    e: "Yes mang nghĩa đồng ý."
+  },
+
+  {
+    q: "Question 11. Complete the sentence: Good ____!",
+    opts: ["A. cat", "B. morning", "C. blue", "D. five"],
+    a: "B. morning",
+    e: "Good morning là câu chào buổi sáng."
+  },
+  {
+    q: "Question 12. Look at the picture. What number is it?",
+    img: "./data/Lop2/TiengAnh/images/de4_q12.png",
+    opts: ["A. Sixteen", "B. Seventeen", "C. One Hundred", "D. Nineteen"],
+    a: "C. One Hundred",
+    e: "Hình ảnh là số 100 - One Hundred."
+  },
+  {
+    q: "Question 13. Choose the correct word: This is a ____.",
+    opts: ["A. dog", "B. red", "C. five", "D. hello"],
+    a: "A. dog",
+    e: "Dog là danh từ phù hợp."
+  },
+  {
+    q: "Question 14. Complete the sentence: Hello, ____!",
+    opts: ["A. book", "B. teacher", "C. blue", "D. five"],
+    a: "B. teacher",
+    e: "Hello teacher là câu đúng ngữ cảnh."
+  },
+  {
+    q: "Question 15. Which word is NOT a color?",
+    opts: ["A. Red", "B. Blue", "C. Green", "D. Cat"],
+    a: "D. Cat",
+    e: "Cat là con vật, không phải màu sắc."
+  },
+
+  {
+    q: "Question 16. Choose the correct answer: How are you?",
+    opts: ["A. Hello", "B. I am fine", "C. Cat", "D. Five"],
+    a: "B. I am fine",
+    e: "I am fine là câu trả lời phù hợp."
+  },
+  {
+    q: "Question 17. Look at the picture. What is this?",
+    img: "./data/Lop2/TiengAnh/images/de4_q17.png",
+    opts: ["A. Kite", "B. Cat", "C. Dog", "D. Apple"],
+    a: "A. Kite",
+    e: "Hình ảnh là con diều Kite."
+  },
+  {
+    q: "Question 18. Choose the correct sentence.",
+    opts: ["A. Hello cat", "B. Hello five", "C. Hello teacher", "D. Hello red"],
+    a: "C. Hello teacher",
+    e: "Đây là câu chào đúng."
+  },
+  {
+    q: "Question 19. Which word means a family member?",
+    opts: ["A. Father", "B. Red", "C. Book", "D. Five"],
+    a: "A. Father",
+    e: "Father là thành viên gia đình."
+  },
+  {
+    q: "Question 20. Choose the correct answer: Bye!",
+    opts: ["A. Hello", "B. Goodbye", "C. Thank you", "D. Yes"],
+    a: "B. Goodbye",
+    e: "Bye tương đương Goodbye."
+  },
+  {
+    q: "Question 21. Complete the sentence: This is my ____.",
+    opts: ["A. father", "B. red", "C. five", "D. hello"],
+    a: "A. father",
+    e: "Father là thành viên gia đình, phù hợp ngữ cảnh."
+  },
+  {
+    q: "Question 22. Choose the correct sentence.",
+    opts: [
+      "A. This is cat",
+      "B. This is a cat",
+      "C. This cat is",
+      "D. Is this cat"
+    ],
+    a: "B. This is a cat",
+    e: "Câu B có đủ cấu trúc ngữ pháp đơn giản đúng."
+  },
+  {
+    q: "Question 23. Complete the sentence: I have ____ book.",
+    opts: ["A. a", "B. an", "C. the", "D. is"],
+    a: "A. a",
+    e: "Book bắt đầu bằng phụ âm, dùng mạo từ a."
+  },
+  {
+    q: "Question 24. Choose the correct answer: What color is it? – It is ____.",
+    opts: ["A. cat", "B. five", "C. blue", "D. book"],
+    a: "C. blue",
+    e: "Blue là màu sắc, phù hợp câu hỏi."
+  },
+  {
+    q: "Question 25. Choose the correct sentence to say goodbye.",
+    opts: [
+      "A. Hello!",
+      "B. Thank you!",
+      "C. Goodbye!",
+      "D. Yes!"
+    ],
+    a: "C. Goodbye!",
+    e: "Goodbye dùng khi chào tạm biệt."
   }
+
 ];
