@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --p-navy: #5D6D7E; --p-rose: #D98880; --p-teal: #76D7C4; --p-sun: #F7DC6F; --p-purple: #AF7AC5; }
-        body { font-family: 'Quicksand', sans-serif; background: #f4f4f4 url('https://img.freepik.com/free-vector/hand-drawn-back-school-background_23-2149464866.jpg') fixed; background-size: cover; background-blend-mode: multiply; margin: 0; }
+        body { font-family: 'Quicksand', sans-serif; background: #f4f4f4 url('https://img.freepik.com/free-vector/hand-drawn-back-school-background_23-2149464866.jpg') fixed; background-size: cover; background-blend-mode: multiply; margin: 0; scroll-behavior: smooth; }
         header { background: linear-gradient(135deg, var(--p-navy), var(--p-purple)); color: white; padding: 40px 20px; text-align: center; border-bottom: 8px solid var(--p-sun); }
         .tabs-container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
         .grade-tabs, .subject-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -28,6 +28,10 @@
         .option-item:hover { background: #e0e0e0; }
         .option-item.locked { pointer-events: none; opacity: 0.8; } /* Khóa khi đã nộp bài */
         
+        /* Style cho ô input nhập liệu mới */
+        .answer-input { margin-top: 10px; padding: 10px 15px; border: 2px solid var(--p-navy); border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 1rem; width: 200px; outline: none; transition: 0.3s; }
+        .answer-input:focus { border-color: var(--p-teal); box-shadow: 0 0 5px var(--p-teal); }
+
         .explanation { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; font-style: italic; font-weight: bold;}
         
         .btn-group { display: flex; gap: 10px; }
@@ -42,6 +46,10 @@
         .history-table tr:nth-child(even) { background-color: #f9f9f9; }
 
         .score-display { font-size: 2rem; text-align: center; display: none; margin-bottom: 20px; color: var(--p-purple); font-weight: bold; }
+
+        /* Nút lên đầu trang */
+        #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--p-rose); color: white; cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s; }
+        #scrollTopBtn:hover { background-color: var(--p-purple); transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -50,6 +58,8 @@
     <h1>Cổng Học Tập Tiểu Học Đậu Bí Family</h1>
     <p>Học chăm chỉ - Thi tự tin - Điểm 10 xứng đáng</p>
 </header>
+
+<button onclick="topFunction()" id="scrollTopBtn" title="Lên đầu trang">⬆️</button>
 
 <div class="tabs-container">
     <div class="grade-tabs">
@@ -137,7 +147,10 @@
                 currentSubject = s;
                 document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                loadTestFile();
+                
+                // --- UPDATE: Reset lại ô chọn đề khi chuyển môn ---
+                document.getElementById('test-select').value = ""; 
+                loadTestFile(); 
             };
             container.appendChild(btn);
         });
@@ -156,7 +169,10 @@
         retryBtn.style.display = "none";
         document.getElementById('score-display').style.display = 'none';
 
-        if (!testNum) return;
+        if (!testNum) {
+            info.innerText = "Vui lòng chọn đề"; // Reset text
+            return;
+        }
         info.innerText = `${currentSubject} Lớp ${currentGrade} - Đề số ${testNum}`;
 
         const path = `./data/Lop${currentGrade}/${cleanName(currentSubject)}/de${testNum}.js`;
@@ -167,6 +183,7 @@
             renderQuiz();
             submitBtn.style.display = "block";
         } catch (e) {
+            console.error(e); // Log lỗi để debug nếu cần
             container.innerHTML = `<p style="padding:20px;">⚠️ Chưa có dữ liệu cho <b>Đề số ${testNum}</b> môn ${currentSubject}.</p>`;
         }
     };
@@ -177,12 +194,19 @@
             const card = document.createElement('div');
             card.className = 'question-card';
             
-            let inputArea = q.opts 
-                ? `<div class="options-grid">${q.opts.map(o => `<label class="option-item"><input type="radio" name="q${i}" value="${o}"> ${o}</label>`).join('')}</div>`
-                : `<select name="q${i}" style="margin-top:10px; padding:8px;"><option value="">-- Chọn số --</option>${Array.from({length: 21}, (_, n) => `<option value="${n}">${n}</option>`).join('')}</select>`;
+            // --- UPDATE: Thay thế logic hiển thị input ---
+            let inputArea = "";
+            if (q.opts) {
+                // Nếu có options (Trắc nghiệm)
+                inputArea = `<div class="options-grid">${q.opts.map(o => `<label class="option-item"><input type="radio" name="q${i}" value="${o}"> ${o}</label>`).join('')}</div>`;
+            } else {
+                // Nếu không có options (Tự luận điền số/chữ) -> Dùng Input Text thay vì Select
+                inputArea = `<input type="text" name="q${i}" class="answer-input" placeholder="Nhập đáp án của bé..." autocomplete="off">`;
+            }
 
+            // --- UPDATE: Bỏ phần tự động thêm "Câu 1, Câu 2" ---
             card.innerHTML = `
-                <div><strong>Câu ${i+1}: ${q.q}</strong></div>
+                <div><strong>${q.q}</strong></div>
                 ${q.img ? `<img src="${q.img}" class="q-img">` : ''}
                 ${inputArea}
                 <div id="ex${i}" class="explanation"></div>
@@ -198,27 +222,33 @@
         const testNum = document.getElementById('test-select').value;
 
         questionsData.forEach((q, i) => {
-            const inputs = document.getElementsByName(`q${i}`);
             let ans = "";
             
             if (q.opts) {
+                // Xử lý trắc nghiệm
                 const checked = document.querySelector(`input[name="q${i}"]:checked`);
                 ans = checked ? checked.value : "";
+                
+                // Khóa input
+                const inputs = document.getElementsByName(`q${i}`);
+                inputs.forEach(input => {
+                    input.disabled = true;
+                    if(input.parentElement.classList.contains('option-item')) {
+                        input.parentElement.classList.add('locked');
+                    }
+                });
             } else {
-                ans = document.querySelector(`select[name="q${i}"]`).value;
+                // --- UPDATE: Xử lý input text ---
+                const inputEl = document.querySelector(`input[name="q${i}"]`);
+                ans = inputEl.value.trim(); // Cắt khoảng trắng thừa
+                inputEl.disabled = true;
             }
             
-            // Khóa các ô chọn sau khi nộp bài
-            inputs.forEach(input => {
-                input.disabled = true;
-                if(input.parentElement.classList.contains('option-item')) {
-                    input.parentElement.classList.add('locked');
-                }
-            });
-            if (!q.opts) document.querySelector(`select[name="q${i}"]`).disabled = true;
-
             const ex = document.getElementById(`ex${i}`);
             ex.style.display = 'block';
+            
+            // So sánh kết quả (đơn giản)
+            // Lưu ý: Với input text, nên cân nhắc chuẩn hóa (viết hoa/thường) nếu cần thiết
             if(ans == q.a) { 
                 score++; 
                 ex.innerHTML = `✅ Đúng! ${q.e}`; ex.style.color = 'green'; 
@@ -270,9 +300,24 @@
         }
     };
 
+    // --- UPDATE: Logic nút Scroll To Top ---
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        const mybutton = document.getElementById("scrollTopBtn");
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    window.topFunction = () => {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
     renderSubjectTabs();
 </script>
 </body>
 </html>
-
-
