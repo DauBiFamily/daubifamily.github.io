@@ -122,7 +122,7 @@ export const data = [
   {
     q: "Câu 21: Số lớn nhất có 2 chữ số mà tổng hai chữ số bằng 9 là?",
     opts: ["45", "54", "63", "90"],
-    a: "54",
+    a: "90",
     e: "Các số có tổng chữ số bằng 9 thì 54 là số lớn nhất."
   },
   {

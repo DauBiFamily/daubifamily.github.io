@@ -39,7 +39,7 @@ export const data = [
     { 
       q: "Câu 7: Tìm x, biết: x - 7 = 53.", 
       opts: ["x = 46", "x = 60", "x = 50", "x = 56"], 
-      a: "60", 
+      a: "x = 60", 
       e: "x = 53 + 7 = 60." 
     },
     { 
@@ -75,7 +75,7 @@ export const data = [
     { 
       q: "Câu 13: Bình có 12 viên bi, Bình ít hơn An 8 viên. An có bao nhiêu viên?", 
       opts: ["4 viên", "20 viên", "18 viên", "16 viên"], 
-      a: "20", 
+      a: "20 viên", 
       e: "An có: 12 + 8 = 20 viên bi." 
     },
     { 
