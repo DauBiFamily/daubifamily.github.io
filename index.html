@@ -4,36 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đậu Bí Family - Vườn Học Tập Vui Nhộn</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- BẢNG MÀU TƯƠI SÁNG CHO BÉ (THEME XANH ĐỒNG - TRƯỜNG VÀNG) --- */
+        /* --- BẢNG MÀU --- */
         :root {
-            --c-grass: #7bce5e;  /* Xanh cỏ */
-            --c-sky: #87ceeb;    /* Xanh trời */
-            --c-sun: #f7dc6f;    /* Vàng nắng */
-            --c-rose: #ff8fab;   /* Hồng phấn */
-            --c-wood: #8d6e63;   /* Nâu gỗ */
-            --c-white: #ffffff;
-            --c-text: #2c3e50;
+            --c-grass: #7bce5e; --c-sky: #87ceeb; --c-sun: #f7dc6f; 
+            --c-rose: #ff8fab; --c-wood: #8d6e63; --c-white: #ffffff; 
+            --c-text: #2c3e50; --c-highlight: #ff9f43;
         }
 
         body {
             font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            color: var(--c-text);
-            background-color: var(--c-sky);
-            /* Hình nền hoạt hình phong cảnh + họa tiết hình học mờ */
+            margin: 0; color: var(--c-text); background-color: var(--c-sky);
             background-image: 
-                url('https://img.freepik.com/free-vector/hand-drawn-school-pattern-background_23-2149464866.jpg'), /* Lớp phủ họa tiết học tập */
-                linear-gradient(to bottom, #87ceeb 0%, #e0f7fa 50%, #7bce5e 100%); /* Bầu trời và cỏ */
+                url('https://img.freepik.com/free-vector/hand-drawn-school-pattern-background_23-2149464866.jpg'),
+                linear-gradient(to bottom, #87ceeb 0%, #e0f7fa 50%, #7bce5e 100%);
             background-blend-mode: multiply, normal;
-            background-size: 400px, cover; 
-            background-repeat: repeat, no-repeat;
-            background-attachment: fixed;
-            overflow-x: hidden;
+            background-size: 400px, cover; background-repeat: repeat, no-repeat;
+            background-attachment: fixed; overflow-x: hidden;
         }
 
-        /* Trang trí thêm mây và mặt trời bằng CSS (Giữ web nhẹ) */
         .decor-bg { position: fixed; z-index: -1; pointer-events: none; }
         .sun { top: 20px; right: 20px; font-size: 80px; animation: spin 20s linear infinite; }
         .cloud-1 { top: 100px; left: -100px; font-size: 60px; animation: floatCloud 25s linear infinite; opacity: 0.8; }
@@ -43,150 +33,130 @@
         @keyframes floatCloud { 0% { left: -100px; } 100% { left: 110%; } }
         @keyframes floatCloudReverse { 0% { right: -100px; } 100% { right: 110%; } }
 
-        /* --- HEADER --- */
+        /* --- HEADER (ĐÃ CHỈNH SỬA THEO YÊU CẦU MỚI) --- */
         header {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            background-image: url('./images/2.png');
+            /* Zoom nhỏ lại một chút bằng cách dùng cover kết hợp vị trí center */
+            background-size: cover; 
+            background-position: center 35%; /* Căn chỉnh để thấy rõ mặt 3 nhân vật */
+            
+            /* GIẢM ĐỘ MỜ: Giảm opacity màu trắng xuống 0.3 để hình ảnh ĐẬM và RÕ hơn */
+            background-color: rgba(255, 255, 255, 0.3); 
+            background-blend-mode: overlay;
+            
+            /* KÍCH THƯỚC: Tăng padding để Header lớn hơn 20% so với cũ */
+            padding: 60px 20px; 
+            
             text-align: center;
             border-bottom: 5px solid var(--c-sun);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-radius: 0 0 30px 30px;
             margin-bottom: 30px;
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
         }
-        header h1 { color: var(--c-grass); text-transform: uppercase; margin: 0; font-weight: 900; text-shadow: 2px 2px 0px white, 4px 4px 0px rgba(0,0,0,0.1); font-size: 2.2rem; }
-        header p { color: var(--c-wood); font-weight: 700; margin-top: 5px; }
+        header h1 { 
+            color: var(--c-grass); text-transform: uppercase; margin: 0; font-weight: 900; 
+            font-family: 'Nunito', sans-serif;
+            /* Text shadow đậm hơn để chữ nổi bật trên nền ảnh */
+            text-shadow: 3px 3px 0px white, 5px 5px 0px rgba(0,0,0,0.1); 
+            /* FONT SIZE: Tăng kích thước chữ tiêu đề lớn hơn */
+            font-size: 3.5rem; 
+        }
+        header p { 
+            color: #5d4037; /* Đổi màu nâu đậm hơn chút để dễ đọc trên hình nền */
+            font-weight: 800; margin-top: 15px; 
+            /* FONT SIZE: Tăng kích thước chữ slogan */
+            font-size: 1.5rem; 
+            text-shadow: 1px 1px 0px white;
+        }
 
         .container { max-width: 950px; margin: 0 auto; padding: 0 15px; position: relative; z-index: 1; }
 
-        /* --- TABS LỚP HỌC (Hình dạng đám mây/viên kẹo) --- */
+        /* --- TABS --- */
         .grade-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .tab-btn {
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 900;
-            font-size: 1.1rem;
-            border: none;
-            background: white;
-            color: var(--c-wood);
+            padding: 12px 30px; border-radius: 25px; cursor: pointer;
+            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.1rem;
+            border: none; background: white; color: var(--c-wood);
             box-shadow: 0 5px 0 #ddd, 0 10px 10px rgba(0,0,0,0.1);
             transition: transform 0.1s, box-shadow 0.1s;
         }
         .tab-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #ddd; }
         .tab-btn.active { background: var(--c-sun); color: #d35400; box-shadow: 0 5px 0 #e67e22, 0 10px 10px rgba(0,0,0,0.1); }
 
-        /* --- TABS MÔN HỌC (Hình dạng thẻ bài) --- */
         .subject-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
         .subject-btn {
-            padding: 10px 20px;
-            border-radius: 15px;
-            background: white;
-            color: var(--c-grass);
-            border: 2px solid var(--c-grass);
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.3s;
+            padding: 10px 20px; border-radius: 15px; background: white;
+            color: var(--c-grass); border: 2px solid var(--c-grass);
+            cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: 0.3s;
         }
         .subject-btn:hover { transform: scale(1.05); }
         .subject-btn.active { background: var(--c-grass); color: white; box-shadow: 0 4px 10px rgba(123, 206, 94, 0.4); }
 
-        /* --- KHUNG BÀI TẬP (BẢNG TRẮNG) --- */
+        /* --- KHUNG BÀI TẬP --- */
         .quiz-section {
-            background: #ffffff;
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 8px solid var(--c-sun); /* Viền vàng như khung tranh */
-            position: relative;
+            background: #ffffff; border-radius: 30px; padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 8px solid var(--c-sun); position: relative;
         }
-        /* Hình trang trí góc bảng */
         .quiz-section::before { content: "✏️"; position: absolute; top: -25px; left: 20px; font-size: 40px; transform: rotate(-20deg); }
         .quiz-section::after { content: "🌟"; position: absolute; top: -25px; right: 20px; font-size: 40px; transform: rotate(20deg); }
 
         .test-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px dashed #eee; padding-bottom: 20px; margin-bottom: 20px; }
-        .test-header h2 { color: var(--c-wood); margin: 0; }
-        select { padding: 10px; border-radius: 10px; border: 2px solid var(--c-sky); font-family: 'Quicksand'; font-weight: bold; color: var(--c-text); outline: none; cursor: pointer; }
+        .test-header h2 { color: var(--c-wood); margin: 0; font-family: 'Nunito', sans-serif; }
+        select { padding: 10px; border-radius: 10px; border: 2px solid var(--c-sky); font-family: 'Nunito', sans-serif; font-weight: bold; color: var(--c-text); outline: none; cursor: pointer; }
 
-        /* --- CÂU HỎI (CARD) --- */
+        /* --- CÂU HỎI --- */
         .question-card {
-            background: #f9fdf9; /* Xanh cực nhạt */
-            border: 2px solid var(--c-grass);
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 20px;
-            box-shadow: 3px 3px 0 rgba(123, 206, 94, 0.2);
-            position: relative;
+            background: #f9fdf9; border: 2px solid var(--c-grass); padding: 25px; margin-bottom: 25px;
+            border-radius: 20px; box-shadow: 3px 3px 0 rgba(123, 206, 94, 0.2); position: relative;
         }
-        /* Số thứ tự câu hỏi */
-        .question-card strong { color: #2e7d32; font-size: 1.1rem; }
-        
-        /* HÌNH ẢNH (GIỮ NGUYÊN KÍCH THƯỚC NHƯ YÊU CẦU) */
-        .q-img { max-width: 250px; height: auto; border-radius: 15px; margin: 15px 0; display: block; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question-text-wrapper { display: flex; align-items: flex-start; font-size: 1.15rem; color: #2c3e50; }
+        .q-bullet { color: var(--c-highlight); margin-right: 10px; font-size: 1.4rem; line-height: 1; }
+        .q-img { max-width: 250px; height: auto; border-radius: 15px; margin: 15px 0 15px 30px; display: block; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        /* --- ĐÁP ÁN --- */
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; margin-left: 30px; }
         .option-item {
-            padding: 15px;
-            background: white;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 600;
+            padding: 15px; background: white; border: 2px solid #eee; border-radius: 12px;
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; font-weight: 600;
         }
         .option-item:hover { border-color: var(--c-sky); background: #f0faff; }
         .option-item input { accent-color: var(--c-grass); transform: scale(1.2); }
         .option-item.locked { opacity: 0.7; pointer-events: none; background: #f5f5f5; }
 
         .answer-input {
-            padding: 12px 20px;
-            border: 2px solid var(--c-wood);
-            border-radius: 12px;
-            font-family: 'Quicksand';
-            font-size: 1.1rem;
-            outline: none;
-            width: 250px;
-            color: var(--c-wood);
-            background: #fff8e1; /* Màu giấy cũ */
+            padding: 12px 20px; border: 2px solid var(--c-wood); border-radius: 12px;
+            font-family: 'Quicksand'; font-size: 1.1rem; outline: none; width: 250px;
+            color: var(--c-wood); background: #fff8e1; margin-left: 30px;
         }
         .answer-input:focus { border-color: var(--c-rose); box-shadow: 0 0 0 3px rgba(255, 143, 171, 0.3); }
+        .explanation { margin-top: 15px; padding: 15px; border-radius: 10px; display: none; background: #fff; border: 2px dashed; margin-left: 30px; }
 
-        .explanation { margin-top: 15px; padding: 15px; border-radius: 10px; display: none; background: #fff; border: 2px dashed; }
-
-        /* --- NÚT BẤM (BUTTONS) --- */
+        /* --- BUTTONS --- */
         .btn-group { display: flex; gap: 15px; margin-top: 30px; }
         .btn-submit {
-            flex: 2; padding: 18px;
-            background: linear-gradient(to bottom, #7bce5e, #58b63a);
+            flex: 2; padding: 18px; background: linear-gradient(to bottom, #7bce5e, #58b63a);
             color: white; font-size: 1.3rem; border: none; border-radius: 50px;
-            cursor: pointer; font-weight: 900;
-            box-shadow: 0 6px 0 #388e3c, 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
+            cursor: pointer; font-weight: 900; box-shadow: 0 6px 0 #388e3c, 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.1s; font-family: 'Nunito', sans-serif;
         }
         .btn-submit:active { transform: translateY(6px); box-shadow: 0 0 0 #388e3c; }
-
         .btn-retry {
-            flex: 1; padding: 18px;
-            background: linear-gradient(to bottom, #f7dc6f, #f1c40f);
+            flex: 1; padding: 18px; background: linear-gradient(to bottom, #f7dc6f, #f1c40f);
             color: #d35400; font-size: 1.3rem; border: none; border-radius: 50px;
-            cursor: pointer; font-weight: 900;
-            display: none;
-            box-shadow: 0 6px 0 #e67e22, 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer; font-weight: 900; display: none;
+            box-shadow: 0 6px 0 #e67e22, 0 10px 20px rgba(0,0,0,0.2); font-family: 'Nunito', sans-serif;
         }
         .btn-retry:active { transform: translateY(6px); box-shadow: 0 0 0 #e67e22; }
 
-        /* --- BẢNG LỊCH SỬ --- */
+        /* --- LỊCH SỬ --- */
         .history-section { margin-top: 40px; border-top: 3px dashed #eee; padding-top: 20px; }
         .history-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 10px; }
-        .history-table th { color: var(--c-wood); font-weight: 800; padding: 10px; }
+        .history-table th { color: var(--c-wood); font-weight: 800; padding: 10px; font-family: 'Nunito', sans-serif; }
         .history-table td { background: #fdfdfd; padding: 15px; text-align: center; border-top: 2px solid #eee; border-bottom: 2px solid #eee; }
         .history-table td:first-child { border-left: 2px solid #eee; border-radius: 10px 0 0 10px; }
         .history-table td:last-child { border-right: 2px solid #eee; border-radius: 0 10px 10px 0; }
         
-        .score-display { font-size: 2.5rem; text-align: center; display: none; margin-bottom: 20px; color: #e74c3c; font-weight: 900; text-shadow: 2px 2px 0 #fff; animation: popIn 0.5s; }
+        .score-display { font-size: 2.5rem; text-align: center; display: none; margin-bottom: 20px; color: #e74c3c; font-weight: 900; text-shadow: 2px 2px 0 #fff; animation: popIn 0.5s; font-family: 'Nunito', sans-serif; }
         @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         /* --- MODAL --- */
@@ -204,16 +174,16 @@
         .detail-q { font-weight: bold; color: #c0392b; margin-bottom: 5px; }
         .btn-view-detail { background: var(--c-sky); border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; color: white; box-shadow: 0 3px 0 #2980b9; }
 
-        /* Nút lên đầu trang */
         #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--c-rose); color: white; cursor: pointer; padding: 15px; border-radius: 50%; font-size: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s; }
         #scrollTopBtn:hover { transform: scale(1.2) rotate(-10deg); }
 
-        /* Responsive cho điện thoại */
         @media (max-width: 600px) {
-            .options-grid { grid-template-columns: 1fr; }
+            .options-grid { grid-template-columns: 1fr; margin-left: 0; }
             .btn-group { flex-direction: column; }
             .tab-btn { padding: 10px 15px; font-size: 0.9rem; }
             .quiz-section { padding: 15px; border-width: 5px; }
+            .q-img { margin-left: 0; }
+            .answer-input { margin-left: 0; width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
@@ -261,7 +231,7 @@
             </div>
 
             <div class="history-section">
-                <h3 style="color: var(--c-wood); text-align: center;">🏆 Bảng Thành Tích Của Bé</h3>
+                <h3 style="color: var(--c-wood); text-align: center; font-family: 'Nunito', sans-serif;">🏆 Bảng Thành Tích Của Bé</h3>
                 <table class="history-table">
                     <thead>
                         <tr>
@@ -274,7 +244,7 @@
                     <tbody id="history-body"></tbody>
                 </table>
                 <div style="text-align: center; margin-top: 15px;">
-                    <button onclick="clearHistory()" style="border: none; background: none; color: #999; cursor: pointer; text-decoration: underline;">Xóa lịch sử cũ</button>
+                    <button onclick="clearHistory()" style="border: none; background: none; color: #999; cursor: pointer; text-decoration: underline; font-family: 'Nunito', sans-serif;">Xóa lịch sử cũ</button>
                 </div>
             </div>
         </div>
@@ -284,7 +254,7 @@
 <div id="detailModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3 style="color: var(--c-rose); text-align: center; margin-top: 0;">🧐 Các Câu Cần Xem Lại</h3>
+        <h3 style="color: var(--c-rose); text-align: center; margin-top: 0; font-family: 'Nunito', sans-serif;">🧐 Các Câu Cần Xem Lại</h3>
         <div id="modal-body-content"></div>
     </div>
 </div>
@@ -353,7 +323,6 @@
         }
         info.innerText = `${currentSubject} Lớp ${currentGrade} - Bài số ${testNum}`;
 
-        // Lấy dữ liệu từ file JS - GIỮ NGUYÊN ĐƯỜNG DẪN
         const path = `./data/Lop${currentGrade}/${cleanName(currentSubject)}/de${testNum}.js`;
 
         try {
@@ -380,8 +349,12 @@
                 inputArea = `<input type="text" name="q${i}" class="answer-input" placeholder="Điền câu trả lời..." autocomplete="off">`;
             }
 
+            // Dấu hoa thị ở đầu câu hỏi
             card.innerHTML = `
-                <div><strong>Câu ${i+1}:</strong> ${q.q}</div>
+                <div class="question-text-wrapper">
+                    <span class="q-bullet">❖</span>
+                    <strong>${q.q}</strong>
+                </div>
                 ${q.img ? `<img src="${q.img}" class="q-img">` : ''}
                 ${inputArea}
                 <div id="ex${i}" class="explanation"></div>
@@ -430,7 +403,7 @@
             } else { 
                 ex.innerHTML = `❌ Tiếc quá. Đáp án là: <b>${q.a}</b>. ${q.e || ''}`; ex.style.color = '#c0392b'; ex.style.borderColor = '#c0392b';
                 mistakes.push({
-                    question: `Câu ${i+1}: ${q.q}`,
+                    question: q.q,
                     userAnswer: ans || "(Chưa làm)",
                     correctAnswer: q.a
                 });
