@@ -26,7 +26,7 @@ export const data = [
   {
     q: "Question 5: Which equation is correct?",
     opts: ["15 + 4 = 20", "20 - 5 = 16", "8 + 9 = 17", "12 + 12 = 25"],
-    a: "17",
+    a: "8 + 9 = 17",
     e: "Only 8 + 9 = 17 is mathematically true."
   },
   {
@@ -147,4 +147,5 @@ export const data = [
     a: "12",
     e: "A cube has 12 equal edges."
   }
+
 ];
