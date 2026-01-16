@@ -147,5 +147,4 @@ export const data = [
     a: "12",
     e: "A cube has 12 equal edges."
   }
-
 ];
