@@ -1,0 +1,12 @@
+# title: Daily routine count numbet 1-10
+# youtube: (không bắt buộc, chỉ dùng khi bài có mốc giờ)
+one
+two
+three
+four
+five
+six
+seven
+eight
+nine
+ten
