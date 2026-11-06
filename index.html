@@ -98,8 +98,13 @@
         .detail-q { font-weight: 900; color: var(--danger-shadow); margin-bottom: 10px; font-size: 1.15rem;}
         .btn-view-detail { background: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: 900; font-family: 'Nunito'; color: white; box-shadow: 0 4px 0 var(--primary-shadow); transition: 0.1s;}
         .btn-view-detail:active { transform: translateY(4px); box-shadow: 0 0 0 var(--primary-shadow); }
+        
         #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--primary); color: white; cursor: pointer; width: 60px; height: 60px; border-radius: 50%; font-size: 28px; box-shadow: 0 6px 0 var(--primary-shadow), 0 10px 20px rgba(0,0,0,0.2); transition: 0.1s; }
         #scrollTopBtn:active { transform: translateY(6px); box-shadow: 0 0 0 var(--primary-shadow); }
+        
+        #scrollBottomBtn { display: block; position: fixed; bottom: 100px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--warning); color: white; cursor: pointer; width: 60px; height: 60px; border-radius: 50%; font-size: 28px; box-shadow: 0 6px 0 var(--warning-shadow), 0 10px 20px rgba(0,0,0,0.2); transition: 0.1s; transform: rotate(180deg); }
+        #scrollBottomBtn:active { transform: translateY(6px) rotate(180deg); box-shadow: 0 0 0 var(--warning-shadow); }
+
         .badges-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 25px 0 40px; }
         .badge-item { width: 120px; text-align: center; padding: 15px 10px; border-radius: var(--radius-md); background: #fff; border: 3px solid #e2e8f0; transition: 0.3s; box-shadow: 0 5px 0 #e2e8f0;}
         .badge-item.unlocked { background: #fffbeb; border-color: var(--warning); box-shadow: 0 6px 0 var(--warning-shadow); transform: translateY(-5px); }
@@ -115,6 +120,10 @@
             .quiz-section { padding: 20px; border-width: 3px; }
             .test-header { flex-direction: column; text-align: center; }
             .answer-input { max-width: 100%; box-sizing: border-box; }
+            
+            .grade-tabs, .subject-tabs { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
+            .tab-btn, .subject-btn { white-space: nowrap; flex-shrink: 0; scroll-snap-align: start; }
+            .grade-tabs::-webkit-scrollbar, .subject-tabs::-webkit-scrollbar { height: 0px; background: transparent; }
         }
 
         /* === MODULE: LUYỆN GÕ & SHADOWING === */
@@ -243,6 +252,7 @@
 </header>
 
 <button onclick="topFunction()" id="scrollTopBtn" title="Lên đầu trang">🚀</button>
+<button onclick="bottomFunction()" id="scrollBottomBtn" title="Xuống cuối trang">🚀</button>
 
 <div class="container">
     <div class="mod-tabs">
@@ -539,7 +549,7 @@
         const path = `./data/Lop${grade}/${cleanSubj}/${fileName}`;
 
         try {
-            const response = await fetch(path);
+            const response = await fetch(`${path}?v=${new Date().getTime()}`);
             if (!response.ok) throw new Error("Không tìm thấy file Excel: " + path);
             
             const arrayBuffer = await response.arrayBuffer();
@@ -616,7 +626,7 @@
             let workbook = currentWorkbook;
             
             if (!workbook || loadedExcelPath !== path) {
-                const response = await fetch(path);
+                const response = await fetch(`${path}?v=${new Date().getTime()}`);
                 if (!response.ok) throw new Error("Không thể đọc file " + path);
                 const arrayBuffer = await response.arrayBuffer();
                 workbook = XLSX.read(arrayBuffer, { type: 'array' });
@@ -635,7 +645,6 @@
             const rawData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
             questionsData = rawData.map((row, index) => {
-                // Hỗ trợ linh động cả tên cột tiếng Việt lẫn tiếng Anh trong Excel của bạn
                 let optA = row["Lựa chọn A (Opt A)"] || row.A || "";
                 let optB = row["Lựa chọn B (Opt B)"] || row.B || "";
                 let optC = row["Lựa chọn C (Opt C)"] || row.C || "";
@@ -840,8 +849,16 @@
     window.onclick = function(event) { const modal = document.getElementById('detailModal'); if (event.target == modal) modal.style.display = "none"; }
     window.clearHistory = () => { if(confirm("Xóa toàn bộ lịch sử học tập của bé?")) { localStorage.removeItem('daubi_history'); displayHistory(); } };
     window.onscroll = function() {scrollFunction()};
-    function scrollFunction() { const mybutton = document.getElementById("scrollTopBtn"); if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) { mybutton.style.display = "block"; } else { mybutton.style.display = "none"; } }
+    function scrollFunction() { 
+        const mybutton = document.getElementById("scrollTopBtn"); 
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) { 
+            mybutton.style.display = "block"; 
+        } else { 
+            mybutton.style.display = "none"; 
+        } 
+    }
     window.topFunction = () => { document.body.scrollTop = 0; document.documentElement.scrollTop = 0; }
+    window.bottomFunction = () => { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
     renderSubjectTabs();
 </script>
@@ -867,9 +884,6 @@ const NOTE_NOTIMED='Phụ đề chưa có mốc thời gian nên bài học dùn
 let lib=[],libState='loading',pv='',dt,st;
 
 /* ---------- Đọc phụ đề (một hoặc hai ngôn ngữ) ---------- */
-/* Hỗ trợ: SRT/VTT, bản "Show transcript" của YouTube, văn bản thường.
-   Song ngữ: "English || Tiếng Việt", dòng tiếng Việt ngay dưới câu tiếng Anh,
-   hoặc cue có hai dòng (Anh rồi Việt). Dòng tiếng Việt được nhận ra nhờ chữ có dấu. */
 const VIRE=/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i;
 const isVi=l=>VIRE.test(l);
 const SEP=/\s*\|\|\s*/;
@@ -892,7 +906,6 @@ function parse(txt,plain){
       while(k<L.length&&L[k]!==''){raw.push(L[k]);k++}
       const s=tsec(m[1]),e=tsec(m[2]),lines=raw.map(clean).filter(Boolean);
       if(!lines.length)continue;
-      /* Phụ đề tự động của YouTube lặp lại dòng trước trong cue sau: bỏ phần lặp */
       const fresh=lines.length>1?lines.filter(x=>!prev.includes(x)):((e-s<.25&&prev.includes(lines[0]))?[]:lines);
       prev=lines;
       if(!fresh.length)continue;
@@ -928,7 +941,6 @@ function parse(txt,plain){
   }
   return out.filter(o=>o.t&&/[a-z]/i.test(o.t)&&!/^[\[(♪].*[\])♪]$/.test(o.t));
 }
-/* Ghép bản dịch từ một nguồn riêng vào các câu tiếng Anh: theo mốc thời gian nếu có, nếu không thì theo thứ tự */
 function alignVi(en,vi){
   const timed=vi.length&&en.every(x=>x.s!=null)&&vi.every(x=>x.s!=null);
   en.forEach((g,i)=>{
@@ -940,11 +952,6 @@ function alignVi(en,vi){
 }
 const hasVi=L=>!!L&&L.segs.some(x=>x.v);
 
-/* ===== CẤU HÌNH DỊCH TỰ ĐỘNG =====
-   Dán khóa API Google Cloud Translation vào TR_KEY để dịch tự động trên mọi thiết bị
-   (nên giới hạn khóa theo tên miền của web và chỉ cho phép Cloud Translation API).
-   Để trống: web dùng bộ dịch tích hợp của Chrome/Edge trên máy tính (chạy ngay trên máy, không cần khóa).
-   Bản dịch có sẵn trong bài học luôn được ưu tiên; bản dịch tự động được lưu lại để không dịch lại. */
 const TR_KEY='';
 const TRC='daubi_yt_tr';
 let trCache=null,trBusy={},trErr='',trNote='',trChrome=null,trChromeFail=false;
@@ -962,7 +969,7 @@ async function trGoogle(arr){
   if(!t||t.length!==arr.length)throw new Error('google shape');
   return t.map(x=>x.translatedText);
 }
-const TR_WAIT=30000; /* ms: quá thời gian này mà bộ dịch không phản hồi thì coi là lỗi */
+const TR_WAIT=30000;
 const trTO=(p,ms)=>new Promise((res,rej)=>{const t=setTimeout(()=>rej(new Error('timeout')),ms);p.then(v=>{clearTimeout(t);res(v)},e=>{clearTimeout(t);rej(e)})});
 async function trBuiltin(arr){
   if(!('Translator' in self))throw new Error('no builtin');
@@ -970,7 +977,6 @@ async function trBuiltin(arr){
     if(!trChrome){
       const pair={sourceLanguage:'en',targetLanguage:'vi'};
       if(await trTO(Translator.availability(pair),8000)==='unavailable')throw new Error('pair unavailable');
-      /* tải mô hình lần đầu: mỗi lần có tiến độ thì gia hạn thời gian chờ */
       trChrome=await new Promise((res,rej)=>{
         let t=setTimeout(()=>rej(new Error('timeout')),TR_WAIT);
         const bump=()=>{clearTimeout(t);t=setTimeout(()=>rej(new Error('timeout')),TR_WAIT)};
@@ -988,7 +994,6 @@ async function trRun(arr){
   if('Translator' in self&&!trChromeFail){try{return await trBuiltin(arr)}catch(e){last=e}}
   throw last||new Error('no provider');
 }
-/* Dịch câu hiện tại cùng vài câu kế tiếp trong một lượt, rồi lưu lại */
 async function trEnsure(L,from,count){
   const c=trLoad(),map=new Map();
   for(let i=from;i<Math.min(L.segs.length,from+count);i++){const g=L.segs[i],k=tk(g.t);if(!viOf(g)&&!trBusy[k]&&!map.has(k))map.set(k,g)}
@@ -1024,7 +1029,6 @@ function paintVi(){
   try{renderVi();const dl=$('yt-dl');if(dl)dl.style.display=S.L&&!S.fin&&biOn()&&viCount(S.L)?'':'none'}catch(e){}
 }
 window.ytRetryVi=()=>{trErr='';trChromeFail=false;trKick()};
-/* Xuất bản song ngữ (.txt) để đưa vào data/English: có mốc thời gian thì xuất dạng SRT 2 dòng, không thì "English || Tiếng Việt" */
 const tsfmt=x=>{const h=Math.floor(x/3600),m=Math.floor(x%3600/60),sec=(x%60).toFixed(3).padStart(6,'0').replace('.',',');return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+sec};
 function exportText(L){
   const out=['# title: '+L.title];
@@ -1102,10 +1106,10 @@ function fileLesson(n,t){
 async function loadFiles(){
   libState='loading';renderLib();
   try{
-    const r=await fetch(DIR+'list.txt',{cache:'no-cache'});if(!r.ok)throw 0;
+    const r=await fetch(DIR+'list.txt?v='+new Date().getTime(),{cache:'no-cache'});if(!r.ok)throw 0;
     const names=(await r.text()).split(/\r?\n/).map(x=>x.trim()).filter(x=>x&&!x.startsWith('#'));
     lib=await Promise.all(names.map(async n=>{
-      try{const f=await fetch(DIR+encodeURIComponent(n));if(!f.ok)throw 0;return fileLesson(n,await f.text())}
+      try{const f=await fetch(DIR+encodeURIComponent(n)+'?v='+new Date().getTime());if(!f.ok)throw 0;return fileLesson(n,await f.text())}
       catch(e){return{id:'f:'+n,title:pretty(n),err:true,segs:[]}}}));
     libState='ok';
   }catch(e){libState='error';lib=[]}
