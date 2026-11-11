@@ -1,4 +1,20 @@
 # Mỗi dòng là tên một file .txt trong thư mục này
-daily-routine.txt
-daily-routine - 1.txt
-A2-talking.txt
+A0-Lession-1.txt
+A0-Lession-2.txt
+A0-Lession-3.txt
+A0-Lession-4.txt
+A0-Lession-5.txt
+
+A1-Lession-1.txt
+A1-Lession-2.txt
+A1-Lession-3.txt
+A1-Lession-4.txt
+A1-Lession-5.txt
+
+A2-Lession-1.txt
+A2-Lession-2.txt
+A2-Lession-3.txt
+A2-Lession-4.txt
+A2-Lession-5.txt
+A2-Lession-6.txt
+A2-Lession-7.txt

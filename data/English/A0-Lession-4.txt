@@ -1,0 +1,6 @@
+I see a cat. 
+The cat is small. 
+I see a dog. 
+The dog is big. 
+A bird can fly. 
+A fish can swim.
