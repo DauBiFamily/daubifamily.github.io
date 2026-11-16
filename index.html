@@ -256,8 +256,8 @@
 
 <div class="container">
     <div class="mod-tabs">
-        <button class="mod-btn active" data-m="quiz" onclick="ytSwitch('quiz')">📝 Luyện đề</button>
-        <button class="mod-btn" data-m="yt" onclick="ytSwitch('yt')">🎧 Luyện gõ &amp; Shadowing</button>
+        <button class="mod-btn active" data-m="quiz" onclick="ytSwitch('quiz')">📝 Bài Tập</button>
+        <button class="mod-btn" data-m="yt" onclick="ytSwitch('yt')">🎧 Typing practice &amp; Shadowing</button>
     </div>
     <div class="tabs-container" id="quiz-module">
         <div class="grade-tabs">
@@ -432,7 +432,7 @@
      ========================================== -->
 <script type="module">
     const SUBJECTS_CONFIG = {
-        1: ["Toán", "Tiếng Việt"],
+        1: ["Toán", "Tiếng Việt", "Bài Tập Thêm"],
         2: ["Toán", "Tiếng Việt", "Tiếng Anh", "Toán Tiếng Anh", "Bài Tập Thêm"],
         3: ["Toán", "Tiếng Việt", "Tiếng Anh"],
         4: ["Toán", "Tiếng Việt", "Tiếng Anh", "Khoa Học"],
@@ -454,7 +454,7 @@
     }
 
     function subjectIcon(subject) {
-        const icons = { "Toán": "🧮", "Tiếng Việt": "📖", "Tiếng Anh": "🔤", "Toán Tiếng Anh": "🧮🔤", "Luyện Thi VIOEDU": "🏅", "Khoa Học": "🔬" };
+        const icons = { "Toán": "🧮", "Tiếng Việt": "📖", "Tiếng Anh": "🔤", "Toán Tiếng Anh": "🧮🔤", "Bài Tập Thêm": "🏅", "Khoa Học": "🔬" };
         return icons[subject] || "📚";
     }
 
