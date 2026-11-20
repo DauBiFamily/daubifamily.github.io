@@ -98,6 +98,11 @@
         .detail-q { font-weight: 900; color: var(--danger-shadow); margin-bottom: 10px; font-size: 1.15rem;}
         .btn-view-detail { background: var(--primary); border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: 900; font-family: 'Nunito'; color: white; box-shadow: 0 4px 0 var(--primary-shadow); transition: 0.1s;}
         .btn-view-detail:active { transform: translateY(4px); box-shadow: 0 0 0 var(--primary-shadow); }
+        .jump-q { cursor: pointer; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 4px; }
+        .jump-q:hover { color: var(--danger); }
+        .test-tag { display: inline-block; margin-left: 10px; padding: 2px 12px; border-radius: 50px; background: #f3e8ff; color: var(--purple-shadow); border: 2px solid #e9d5ff; font-size: 0.85rem; font-weight: 900; vertical-align: middle; }
+        .question-card.flash { animation: flashCard 1.6s ease; }
+        @keyframes flashCard { 0%, 60% { box-shadow: 0 0 0 6px #fca5a5, 0 8px 0 #e2e8f0; } 100% { box-shadow: 0 8px 0 #e2e8f0; } }
         
         #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--primary); color: white; cursor: pointer; width: 60px; height: 60px; border-radius: 50%; font-size: 28px; box-shadow: 0 6px 0 var(--primary-shadow), 0 10px 20px rgba(0,0,0,0.2); transition: 0.1s; }
         #scrollTopBtn:active { transform: translateY(6px); box-shadow: 0 0 0 var(--primary-shadow); }
@@ -442,7 +447,14 @@
     let currentGrade = 1; 
     let currentSubject = "Toán"; 
     let questionsData = [];
-    let testCountCache = {}; 
+    let testCountCache = {};
+    let testTagCache = {};
+    let canJumpToQuestion = false;
+    function escHtml(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+    function getTestTag(testNum) {
+        const tags = testTagCache[`${currentGrade}_${currentSubject}`] || [];
+        return tags[testNum - 1] || "";
+    }
     let testSelectRequestId = 0;
     let quizLoadRequestId = 0;
 
@@ -560,6 +572,17 @@
             
             const count = workbook.SheetNames.length;
             testCountCache[cacheKey] = count;
+            // Tag (tùy chọn): đọc từ cột "Tag (tag)" của mỗi sheet, không có thì bỏ qua
+            testTagCache[cacheKey] = workbook.SheetNames.map(n => {
+                try {
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[n], { defval: "" });
+                    for (const r of rows) {
+                        const t = (r["Tag (tag)"] || r["Tag"] || r["tag"] || "").toString().trim();
+                        if (t) return t;
+                    }
+                } catch (e) {}
+                return "";
+            });
             return count;
         } catch (e) {
             console.warn(`Chưa có dữ liệu hoặc lỗi tại ${path}: ${e.message}`);
@@ -583,7 +606,8 @@
         for (let i = 1; i <= total; i++) {
             const opt = document.createElement('option');
             opt.value = i;
-            opt.innerText = `Đề số ${i}`;
+            const tag = getTestTag(i);
+            opt.innerText = tag ? `Đề số ${i} · 🏷️ ${tag}` : `Đề số ${i}`;
             select.appendChild(opt);
         }
 
@@ -597,7 +621,8 @@
     }
 
     window.loadTestFile = async () => {
-        const myLoadId = ++quizLoadRequestId; 
+        const myLoadId = ++quizLoadRequestId;
+        canJumpToQuestion = false;
         const testNum = document.getElementById('test-select').value;
         const container = document.getElementById('quiz-container');
         const submitBtn = document.getElementById('submit-btn');
@@ -673,7 +698,8 @@
 
             if (questionsData.length === 0) throw new Error("Sheet này trong Excel đang bị trống");
 
-            info.innerText = `${currentSubject} Lớp ${currentGrade} - Đề số ${testNum}`;
+            const tagText = getTestTag(testNum);
+            info.innerHTML = escHtml(`${currentSubject} Lớp ${currentGrade} - Đề số ${testNum}`) + (tagText ? `<span class="test-tag">🏷️ ${escHtml(tagText)}</span>` : '');
             renderQuiz();
             submitBtn.style.display = "block";
 
@@ -787,7 +813,7 @@
                 ex.innerHTML = `🎉 Đúng rồi! ${q.e || ''}`; ex.style.color = '#16a34a'; ex.style.borderColor = '#16a34a';
             } else { 
                 ex.innerHTML = `❌ Tiếc quá. Đáp án là: <b>${q.a}</b>. ${q.e || ''}`; ex.style.color = '#dc2626'; ex.style.borderColor = '#dc2626';
-                mistakes.push({ question: q.q, userAnswer: ans || "(Chưa làm)", correctAnswer: q.a });
+                mistakes.push({ question: q.q, userAnswer: ans || "(Chưa làm)", correctAnswer: q.a, index: i });
             }
         });
 
@@ -803,6 +829,8 @@
         saveHistory(currentSubject, testNum, finalResult, mistakes);
         updateBadgeProgress(score, questionsData.length);
         window.scrollTo({ top: 100, behavior: 'smooth' });
+        canJumpToQuestion = true;
+        showResultModal({ mistakes }, finalResult, true);
     };
 
     function saveHistory(subject, testNum, result, mistakes) {
@@ -840,10 +868,43 @@
         const content = document.getElementById('modal-body-content');
         if(!item || !item.mistakes) return;
         let html = '';
-        item.mistakes.forEach(m => { html += `<div class="detail-item"><div class="detail-q">${m.question}</div><div style="margin-top:5px">Bé chọn: <span style="color:red; text-decoration:line-through">${m.userAnswer}</span></div><div style="margin-top:5px">Đáp án đúng: <span style="color:green; font-weight:bold">${m.correctAnswer}</span></div></div>`; });
+        const jumpable = canJumpToQuestion && index === 0;
+        item.mistakes.forEach(m => {
+            const num = (m.question.match(/^Câu\s*(\d+)/i) || [])[1];
+            const qIndex = (typeof m.index === 'number') ? m.index : (num ? parseInt(num, 10) - 1 : -1);
+            let qHtml = m.question;
+            if (jumpable && qIndex >= 0) {
+                const prefix = m.question.match(/^Câu\s*\d+/i);
+                const link = (txt) => `<span class="jump-q" title="Bấm để đến câu này" onclick="jumpToQuestion(${qIndex})">${txt}</span>`;
+                qHtml = prefix ? link(prefix[0]) + m.question.slice(prefix[0].length) : link(m.question);
+            }
+            html += `<div class="detail-item"><div class="detail-q">${qHtml}</div><div style="margin-top:5px">Bé chọn: <span style="color:red; text-decoration:line-through">${m.userAnswer}</span></div><div style="margin-top:5px">Đáp án đúng: <span style="color:green; font-weight:bold">${m.correctAnswer}</span></div></div>`;
+        });
         content.innerHTML = html;
         modal.style.display = "block";
     }
+
+    // Tự động hiện pop-up kết quả sau khi nộp bài (vừa làm xong, nên cho phép nhảy tới câu)
+    function showResultModal(item, finalResult, auto) {
+        const content = document.getElementById('modal-body-content');
+        if (item.mistakes && item.mistakes.length > 0) {
+            window.viewDetail(0);
+            content.innerHTML = `<div style="text-align:center; font-weight:900; font-size:1.2rem; margin-bottom:15px; color:${scoreColor(finalResult)}">Bé làm đúng ${finalResult} câu. Bấm vào chữ "Câu..." để đến câu cần xem lại.</div>` + content.innerHTML;
+        } else {
+            content.innerHTML = `<div style="text-align:center; font-weight:900; font-size:1.3rem; color:#16a34a; padding:20px 0">🌟 Bé làm đúng ${finalResult} câu. Không có câu nào cần xem lại!</div>`;
+            document.getElementById('detailModal').style.display = "block";
+        }
+    }
+
+    window.jumpToQuestion = (i) => {
+        document.getElementById('detailModal').style.display = "none";
+        const card = document.querySelectorAll('#quiz-container .question-card')[i];
+        if (!card) return;
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.remove('flash');
+        void card.offsetWidth;
+        card.classList.add('flash');
+    };
 
     window.closeModal = () => { document.getElementById('detailModal').style.display = "none"; }
     window.onclick = function(event) { const modal = document.getElementById('detailModal'); if (event.target == modal) modal.style.display = "none"; }
